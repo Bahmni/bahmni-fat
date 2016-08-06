@@ -10,5 +10,5 @@ target
 logs/
 .gauge/
 reports/
-gauge_bin/
+gauge_*/
 out/

@@ -69,9 +69,9 @@ public class BahmniRestClient {
 	public static BahmniRestClient get(){
 		if(bahmniRestClient == null){
 			bahmniRestClient = new BahmniRestClient();
-			bahmniRestClient.url = System.getenv("bahmni_gauge_env_url");
-			bahmniRestClient.username = System.getenv("bahmni_gauge_env_username");
-			bahmniRestClient.password = System.getenv("bahmni_gauge_env_password");
+			bahmniRestClient.url = System.getenv("BAHMNI_URL");
+			bahmniRestClient.username = System.getenv("BAHMNI_USER");
+			bahmniRestClient.password = System.getenv("BAHMNI_PASSWORD");
 		}
 
 		return bahmniRestClient;
