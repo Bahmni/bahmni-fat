@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BahmniPage {
 
-	protected static String BASE_URL = System.getenv("bahmni_gauge_env_url");
+	protected static String BASE_URL = System.getenv("BAHMNI_URL");
 
 	public static final String PATIENT_KEY = "patient";
 	public static final String PROGRAM_KEY = "program";
