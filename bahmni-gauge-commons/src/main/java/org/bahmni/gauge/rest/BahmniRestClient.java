@@ -17,16 +17,17 @@ import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
+import org.bahmni.gauge.data.Model;
 import org.bahmni.gauge.common.admin.domain.OrderSet;
 import org.bahmni.gauge.common.admin.domain.OrderSetMember;
 import org.bahmni.gauge.common.clinical.domain.DrugOrder;
 import org.bahmni.gauge.common.clinical.domain.Specimen;
 import org.bahmni.gauge.common.program.domain.PatientProgram;
 import org.bahmni.gauge.common.registration.domain.Patient;
-import org.bahmni.gauge.data.Model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.net.ssl.SSLContext;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
@@ -35,8 +36,6 @@ import java.security.cert.X509Certificate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.net.ssl.SSLContext;
 
 public class BahmniRestClient {
 

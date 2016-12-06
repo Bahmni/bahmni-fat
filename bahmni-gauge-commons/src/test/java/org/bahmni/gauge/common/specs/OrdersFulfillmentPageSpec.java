@@ -15,26 +15,28 @@ import java.util.List;
  */
 public class OrdersFulfillmentPageSpec {
     OrdersFulfillmentPage ordersFulfillmentPage;
-    public OrdersFulfillmentPageSpec()
-    {
-        ordersFulfillmentPage=PageFactory.getOrdersFulfillmentPage();
+
+    public OrdersFulfillmentPageSpec() {
+        ordersFulfillmentPage = PageFactory.get(OrdersFulfillmentPage.class);
     }
+
     @BeforeClassSteps
-    public void waitForAppReady(){
+    public void waitForAppReady() {
         ordersFulfillmentPage.waitForSpinner();
+        ordersFulfillmentPage = PageFactory.get(OrdersFulfillmentPage.class);
     }
 
     @Step("Verify orders on orders fulfilment page")
-    public void verifyOrders(){
+    public void verifyOrders() {
         ordersFulfillmentPage.verifyOrders(ordersFulfillmentPage.getPatientFromSpecStore().getOrders());
     }
 
     @Step("Fulfill all radiology order details as follow <table>")
-    public void fulfilorders(Table table){
-        List<Order> orders=ordersFulfillmentPage.getPatientFromSpecStore().getOrders();
-        for(TableRow row:table.getTableRows()){
-            for(Order order:orders){
-                if(row.getCell("name").equals(order.getName())){
+    public void fulfilorders(Table table) {
+        List<Order> orders = ordersFulfillmentPage.getPatientFromSpecStore().getOrders();
+        for (TableRow row : table.getTableRows()) {
+            for (Order order : orders) {
+                if (row.getCell("name").equals(order.getName())) {
                     order.setNote(row.getCell("note"));
                     order.setImage(row.getCell("image"));
                 }
@@ -44,7 +46,7 @@ public class OrdersFulfillmentPageSpec {
     }
 
     @Step("Verify order details on orders fulfilment page")
-    public void verfiyOrderDetails(){
+    public void verfiyOrderDetails() {
         ordersFulfillmentPage.verifyOrdersDetails(ordersFulfillmentPage.getPatientFromSpecStore().getOrders());
     }
 }

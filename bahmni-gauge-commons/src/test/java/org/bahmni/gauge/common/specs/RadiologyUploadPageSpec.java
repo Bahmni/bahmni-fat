@@ -10,14 +10,16 @@ import org.bahmni.gauge.common.radiologyUpload.RadiologyUploadPage;
  * Created by atmaramn on 17/11/2016.
  */
 public class RadiologyUploadPageSpec {
-    private RadiologyUploadPage radiologyUploadPage;
+    RadiologyUploadPage radiologyUploadPage;
 
     public RadiologyUploadPageSpec(){
         radiologyUploadPage = PageFactory.get(RadiologyUploadPage.class);
     }
+
     @BeforeClassSteps
     public void waitForAppReady(){
         radiologyUploadPage.waitForSpinner();
+        radiologyUploadPage = PageFactory.get(RadiologyUploadPage.class);
     }
 
     @Step("Upload following images in visit <visitNumber> <table>")

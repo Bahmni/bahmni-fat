@@ -23,18 +23,19 @@ public class ProgramManagementSpec {
 
 	protected ProgramManagementPage programManagementPage = null;
 
-	@BeforeClassSteps
-	public void waitForAppReady(){
-		BahmniPage.waitForSpinner(DriverFactory.getDriver());
+	public ProgramManagementSpec() {
+		programManagementPage = PageFactory.get(ProgramManagementPage.class);
+
 	}
 
-	public ProgramManagementSpec(){
-		this.programManagementPage = PageFactory.getProgramManagementPage();
+	@BeforeClassSteps
+	public void waitForAppReady(){
+		programManagementPage.waitForSpinner();
+		programManagementPage = PageFactory.get(ProgramManagementPage.class);
 	}
 
 	@Step("Register the patient to following program <programDetails>")
 	public void enrollPatientToProgram(Table programDetails) throws Exception {
-		ProgramManagementPage programManagementPage = PageFactory.getProgramManagementPage();
 		Program treatment = programManagementPage.transformTableToProgram(programDetails);
 		programManagementPage.storeProgramInSpecStore(treatment);
 		programManagementPage.enrollPatientToProgram(treatment);
@@ -43,21 +44,18 @@ public class ProgramManagementSpec {
 
 	@Step("Ensure that the patient is registered to mentioned program")
 	public void verifyThePatientIsEnrolledToTheProgram() {
-		ProgramManagementPage programManagementPage = PageFactory.getProgramManagementPage();
 		Program programDetails = programManagementPage.getProgramFromSpecStore();
 		Assert.assertTrue(programManagementPage.isPatientEnrolledToProgram(programDetails));
 	}
 
 	@Step("Ensure that the patient is registered to <program>")
 	public void verifyThePatientIsEnrolledToGivenProgram(String programName) {
-		ProgramManagementPage programManagementPage = PageFactory.getProgramManagementPage();
 		WebElement program = programManagementPage.findProgram(programName);
 		Assert.assertNotNull("Patient is not enrolled to program "+programName+". Expected to be enrolled", program);
 	}
 
 	@Step("Edit attribute to org.bahmi.gauge.possible.registration <org.bahmi.gauge.possible.registration> and facility <facility>")
 	public void editAttributesEnrolledToTheProgram(String registration, String facility) {
-		ProgramManagementPage programManagementPage = PageFactory.getProgramManagementPage();
 		Program programDetails = programManagementPage.getProgramFromSpecStore();
 		programManagementPage.editProgramAttributes(programDetails, registration, facility);
 		waitForAppReady();
@@ -65,13 +63,11 @@ public class ProgramManagementSpec {
 
 	@Step("End the program <table>")
 	public void endTheProgram(Table program) throws Exception {
-		ProgramManagementPage programManagementPage = PageFactory.getProgramManagementPage();
 		programManagementPage.endProgram(transformTableToProgram(program));
 	}
 
 	@Step("End previously mentioned program")
 	public void endPreviousProgram(){
-		ProgramManagementPage programManagementPage = PageFactory.getProgramManagementPage();
 		Program program=new BahmniPage().getProgramFromSpecStore();
 		program.setTreatmentStatus("Treatment Outcome, Cured");
 		programManagementPage.endProgram(program);
@@ -79,7 +75,6 @@ public class ProgramManagementSpec {
 
 	@Step("End previously mentioned program by setting outcome to <outcome>")
 	public void endPreviousProgramWithOutcome(String outcome){
-		ProgramManagementPage programManagementPage = PageFactory.getProgramManagementPage();
 		Program program=new BahmniPage().getProgramFromSpecStore();
 		program.setTreatmentStatus(outcome);
 		programManagementPage.endProgram(program);
@@ -88,7 +83,7 @@ public class ProgramManagementSpec {
 	@Step("Enroll patient to the program <table>")
 	public void enrollPatientToTheProgram(Table table) throws Exception {
 		Program program = TableTransformer.asEntity(table,Program.class);
-		Patient patient = PageFactory.getRegistrationFirstPage().getPatientFromSpecStore();
+		Patient patient = programManagementPage.getPatientFromSpecStore();
 
 		PatientProgram patientProgram = new PatientProgram();
 		patientProgram.setPatient(patient);
@@ -106,14 +101,12 @@ public class ProgramManagementSpec {
 
 	@Step("Unenroll patient from <program> program")
 	public void unenrollPatientFromTheProgram(String programName){
-		ProgramManagementPage programManagementPage = PageFactory.getProgramManagementPage();
 		WebElement program = programManagementPage.findProgram(programName);
 		programManagementPage.deleteProgram(program);
 	}
 
 	@Step("Ensure that the patient is not registered to <program>")
 	public void verifyPatientIsNotEnrolledToGivenProgram(String programName) {
-		ProgramManagementPage programManagementPage = PageFactory.getProgramManagementPage();
 		WebElement program = null;
 		try {
 			program = programManagementPage.findProgram(programName);
@@ -135,13 +128,13 @@ public class ProgramManagementSpec {
 	public void editCreateProgram(Table table) throws Exception {
 		Program program=programManagementPage.getPatientProgramFromSpecStore().getProgram();
 		Program program1=transformTableToProgram(table);
-		PageFactory.getProgramManagementPage().editProgram(program,program1);
+		programManagementPage.editProgram(program,program1);
 	}
 
 	@Step("Ensure that the program is updated")
 	public void verifyProgramUpdated(){
 		Program program=programManagementPage.getProgramFromSpecStore();
-		PageFactory.getProgramManagementPage().isPatientEnrolledToProgram(program);
+		programManagementPage.isPatientEnrolledToProgram(program);
 	}
 	private Program transformTableToProgram(Table table) throws Exception {
 		List<TableRow> rows = table.getTableRows();

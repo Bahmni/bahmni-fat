@@ -19,18 +19,18 @@ import java.util.Properties;
 
 public class PageFactory {
 
-	private static final String HOME = "home";
-	private static final String REGISTRATION_FIRST_PAGE = "registration.page1";
-	private static final String REGISTRATION_VISIT_PAGE = "registration.visitPage";
-	private static final String PROGRAMS_PAGE = "programs";
-	private static final String PROGRAM_DASHBOARD_PAGE = "program.dashboard";
-	private static final String ADMIN_PAGE = "admin";
-	private static final String BACTERIOLOGY_PAGE = "clinical.bacteriology";
-	private static final String CONSULTATION_PAGE = "clinical.consultation";
-	private static final String CONSULTATION_TAB_PAGE = "clinical.consultationtab";
+//	private static final String HOME = "home";
+//	private static final String REGISTRATION_FIRST_PAGE = "registration.page1";
+//	private static final String REGISTRATION_VISIT_PAGE = "registration.visitPage";
+//	private static final String PROGRAMS_PAGE = "programs";
+//	private static final String PROGRAM_DASHBOARD_PAGE = "program.dashboard";
+//	private static final String ADMIN_PAGE = "admin";
+//	private static final String BACTERIOLOGY_PAGE = "clinical.bacteriology";
+//	private static final String CONSULTATION_PAGE = "clinical.consultation";
+//	private static final String CONSULTATION_TAB_PAGE = "clinical.consultationtab";
 	private static Properties props = new Properties();
-	private static final String ORDERS_FULFILLMENT_PAGE="orders.fulfillment";
-	private static final String TREATMENT_PAGE="clinical.treatment";
+//	private static final String ORDERS_FULFILLMENT_PAGE="orders.fulfillment";
+//	private static final String TREATMENT_PAGE="clinical.treatment";
 	static{
 		InputStream is = ClassLoader.getSystemResourceAsStream("page.properties");
 		try {
@@ -56,56 +56,63 @@ public class PageFactory {
 		}
 	}
 
-	public static AdminPage getAdminPage() {
-		return (AdminPage) get(ADMIN_PAGE);
-	}
 
-	public static BacteriologyPage getBacteriologyPage() {
-		return (BacteriologyPage) get(BACTERIOLOGY_PAGE);
-	}
 
-	public static ConsultationPage getConsultationPage() {
-		return (ConsultationPage) get(CONSULTATION_PAGE);
-	}
 
-	public static ConsultationTabPage getConsultationTabPage() {
-		return (ConsultationTabPage) get(CONSULTATION_TAB_PAGE);
-	}
-
-	public static HomePage getHomePage(){
-		return (HomePage) get(HOME);
-	}
-
-	public static RegistrationFirstPage getRegistrationFirstPage() {
-		return (RegistrationFirstPage) get(REGISTRATION_FIRST_PAGE);
-	}
-
-	public static RegistrationVisitDetailsPage getRegistrationVisitPage() {
-		return (RegistrationVisitDetailsPage) get(REGISTRATION_VISIT_PAGE);
-	}
-
-	public static ProgramManagementPage getProgramManagementPage() {
-		return (ProgramManagementPage) get(PROGRAMS_PAGE);
-
-	}
-
-	public static DashboardPage getProgramDashboardPage(){
-		return (DashboardPage) get(PROGRAM_DASHBOARD_PAGE);
-
-	}
+//	public static AdminPage getAdminPage() {
+//		return (AdminPage) get(ADMIN_PAGE);
+//	}
+//
+//	public static BacteriologyPage getBacteriologyPage() {
+//		return (BacteriologyPage) get(BACTERIOLOGY_PAGE);
+//	}
+//
+//	public static ConsultationPage getConsultationPage() {
+//		return (ConsultationPage) get(CONSULTATION_PAGE);
+//	}
+//
+//	public static ConsultationTabPage getConsultationTabPage() {
+//		return (ConsultationTabPage) get(CONSULTATION_TAB_PAGE);
+//	}
+//
+//	public static HomePage getHomePage(){
+//		return (HomePage) get(HOME);
+//	}
+//
+//	public static RegistrationFirstPage getRegistrationFirstPage() {
+//		return (RegistrationFirstPage) get(RegistrationFirstPage.class);
+//	}
+//
+//	public static RegistrationVisitDetailsPage getRegistrationVisitPage() {
+//		return (RegistrationVisitDetailsPage) get(REGISTRATION_VISIT_PAGE);
+//	}
+//
+//	public static ProgramManagementPage getProgramManagementPage() {
+//		return (ProgramManagementPage) get(PROGRAMS_PAGE);
+//
+//	}
+//
+//	public static DashboardPage getProgramDashboardPage(){
+//		return (DashboardPage) get(PROGRAM_DASHBOARD_PAGE);
+//
+//	}
 
 	public static <T extends BahmniPage> T get(Class<T> page) {
 		WebDriver driver = DriverFactory.getDriver();
-		T bahmniPage = org.openqa.selenium.support.PageFactory.initElements(driver, page);
-		bahmniPage.setDriver(driver);
-		return bahmniPage;
+		try {
+			return (T)get(page.getSimpleName());
+		} catch (TestSpecException ex) {
+			T bahmniPage = org.openqa.selenium.support.PageFactory.initElements(driver, page);
+			bahmniPage.setDriver(driver);
+			return bahmniPage;
+		}
 	}
 
-	public static OrdersFulfillmentPage getOrdersFulfillmentPage() {
-		return (OrdersFulfillmentPage) get(ORDERS_FULFILLMENT_PAGE);
-	}
-
-	public static TreatmentPage getTreatmentPage() {
-		return (TreatmentPage) get(TREATMENT_PAGE);
-	}
+//	public static OrdersFulfillmentPage getOrdersFulfillmentPage() {
+//		return (OrdersFulfillmentPage) get(ORDERS_FULFILLMENT_PAGE);
+//	}
+//
+//	public static TreatmentPage getTreatmentPage() {
+//		return (TreatmentPage) get(TREATMENT_PAGE);
+//	}
 }

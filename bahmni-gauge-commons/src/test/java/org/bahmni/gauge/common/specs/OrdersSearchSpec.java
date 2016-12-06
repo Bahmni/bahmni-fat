@@ -10,16 +10,21 @@ import org.bahmni.gauge.common.registration.RegistrationSearch;
 import org.bahmni.gauge.common.registration.domain.Patient;
 import org.openqa.selenium.By;
 
-public class OrdersSearchSpec extends BahmniPage{
+public class OrdersSearchSpec {
+	OrdersSearchPage ordersSearchPage;
+	public OrdersSearchSpec() {
+		ordersSearchPage=PageFactory.get(OrdersSearchPage.class);
+
+	}
 
 	@BeforeClassSteps
 	public void waitForAppReady(){
-		BahmniPage.waitForSpinner(DriverFactory.getDriver());
+		ordersSearchPage.waitForSpinner();
+		ordersSearchPage=PageFactory.get(OrdersSearchPage.class);
 	}
 
 	@Step("Search previously created patient with exact identifier on orders search page")
 	public void searchPreviousCreatedPatientWithIdentifier() {
-		OrdersSearchPage ordersSearchPage=PageFactory.get(OrdersSearchPage.class);
-		ordersSearchPage.searchById(getPatientFromSpecStore());
+		ordersSearchPage.searchById(ordersSearchPage.getPatientFromSpecStore());
 	}
 }

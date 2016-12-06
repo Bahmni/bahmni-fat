@@ -2,7 +2,6 @@ package org.bahmni.gauge.common.clinical.domain;
 
 import com.thoughtworks.gauge.Table;
 import com.thoughtworks.gauge.TableRow;
-
 import org.bahmni.gauge.common.FormElement;
 import org.bahmni.gauge.common.TestSpecException;
 import org.openqa.selenium.By;

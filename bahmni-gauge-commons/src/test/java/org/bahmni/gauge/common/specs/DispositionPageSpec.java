@@ -8,7 +8,7 @@ import org.bahmni.gauge.common.DriverFactory;
 import org.bahmni.gauge.common.PageFactory;
 import org.bahmni.gauge.common.clinical.DispositionPage;
 
-public class DispositionPageSpec extends BahmniPage {
+public class DispositionPageSpec {
     private DispositionPage dispositionPage;
 
     public DispositionPageSpec() {
@@ -16,15 +16,18 @@ public class DispositionPageSpec extends BahmniPage {
     }
 
     @BeforeClassSteps
-    public void waitForAppReady(){ BahmniPage.waitForSpinner(DriverFactory.getDriver());}
+    public void waitForAppReady() {
+        dispositionPage.waitForSpinner();
+        dispositionPage = PageFactory.get(DispositionPage.class);
+    }
 
     @Step("Select <Disposition Type> disposition")
-    public void captureDataForDisposition(String dispositionType){
+    public void captureDataForDisposition(String dispositionType) {
         dispositionPage.captureDataForDisposition(dispositionType);
     }
 
     @Step("Select <Disposition Type> disposition with notes <notes>")
-    public void captureDataForDisposition(String dispositionType, String notes){
-        dispositionPage.captureDataForDisposition(dispositionType,notes);
+    public void captureDataForDisposition(String dispositionType, String notes) {
+        dispositionPage.captureDataForDisposition(dispositionType, notes);
     }
 }

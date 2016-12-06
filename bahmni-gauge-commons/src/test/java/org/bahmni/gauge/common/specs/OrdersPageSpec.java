@@ -17,11 +17,9 @@ import java.util.List;
 
 
 public class OrdersPageSpec {
-    private final WebDriver driver;
     OrdersPage ordersPage;
 
     public OrdersPageSpec() {
-        driver = DriverFactory.getDriver();
         ordersPage = PageFactory.get(OrdersPage.class);
     }
 

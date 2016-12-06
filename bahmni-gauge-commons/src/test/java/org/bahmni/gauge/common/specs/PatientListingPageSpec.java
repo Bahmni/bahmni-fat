@@ -10,33 +10,36 @@ import org.bahmni.gauge.common.registration.domain.Patient;
 import org.junit.Assert;
 
 public class PatientListingPageSpec {
-//    PatientListingPage patientListing;
-//    PatientListingPageSpec(){
-//        //patientListing = PageFactory.get(PatientListingPage.class);
-//    }
+
+    PatientListingPage patientListing;
+
+    public PatientListingPageSpec() {
+        patientListing = PageFactory.get(PatientListingPage.class);
+    }
+
     @BeforeClassSteps
     public void waitForAppReady(){
-        BahmniPage.waitForSpinner(DriverFactory.getDriver());
+
+        patientListing.waitForSpinner();
+        patientListing = PageFactory.get(PatientListingPage.class);
+
     }
 
     @Step("Select existing patient from patient listing page under tab <tab>")
     public void selectPatientFromTab(String tab) {
-        PatientListingPage patientListing = PageFactory.get(PatientListingPage.class);
-        Patient patient = new BahmniPage().getPatientFromSpecStore();
+        Patient patient = patientListing.getPatientFromSpecStore();
         patientListing.searchSelectPatientFromTab(patient.getIdentifier(),tab);
         //patientListing.searchSelectPatientFromTab("BAH253047",tab);
     }
 
     @Step("Select patient <patient> in tab <tab>")
     public void selectPatient(String patientID , String tab){
-        PatientListingPage patientListing = PageFactory.get(PatientListingPage.class);
         patientListing.searchSelectPatientFromTab(patientID,tab);
     }
 
     @Step("Verify previous patient is not listed on patient listing page under tab <tab>")
     public void verifyPatientPresent(String tab){
-        PatientListingPage patientListing = PageFactory.get(PatientListingPage.class);
-        Patient patient = new BahmniPage().getPatientFromSpecStore();
+        Patient patient = patientListing.getPatientFromSpecStore();
         Assert.assertFalse(patientListing.isPatientListedOnTab(patient.getIdentifier(),tab));
 
     }

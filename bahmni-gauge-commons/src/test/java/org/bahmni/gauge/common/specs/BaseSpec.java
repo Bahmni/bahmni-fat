@@ -24,7 +24,7 @@ public class BaseSpec {
     *   result: 31-12-95
     *   setDateTime("Date Of Obs: <NOW[dd-MM-yy hh:mm a]>") will give "Date Of Obs: 31-12-95 09:30 PM"
     */
-
+    @Deprecated
     static String setDateTime(String content) {
         String pattern = "<NOW\\[(.*)\\]>";
         Matcher matcher = Pattern.compile(".*" + pattern + ".*").matcher(content);

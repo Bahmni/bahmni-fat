@@ -9,31 +9,27 @@ import org.bahmni.gauge.common.admin.OrderSetPage;
 import org.bahmni.gauge.common.admin.domain.OrderSet;
 import org.bahmni.gauge.common.admin.domain.OrderSetMember;
 import org.bahmni.gauge.util.TableTransformer;
-import org.openqa.selenium.WebDriver;
 
 import java.util.ArrayList;
 
 public class OrderSetPageSpec {
     OrderSetPage orderSetPage;
-    private final WebDriver driver;
 
-    public OrderSetPageSpec(){
-        this.driver = DriverFactory.getDriver();
+    public OrderSetPageSpec() {
+        orderSetPage = PageFactory.get(OrderSetPage.class);
     }
 
 
     @Step("Create orderset and enter following orderset details <table>")
-    public void fillOrderSetDetais(Table table){
-        orderSetPage= PageFactory.get(OrderSetPage.class);
+    public void fillOrderSetDetais(Table table) {
         orderSetPage.enterDetails(orderSetPage.transformTableToOrderSet(table));
     }
 
     @Step("Enter following orderset members <table>")
-    public void fillOrderSetMembers(Table table){
-        int i=0;
-        for(OrderSetMember orderSetMember : orderSetPage.transformTableToOrderSetMembers(table))
-        {
-            orderSetPage.enterMember(i,orderSetMember);
+    public void fillOrderSetMembers(Table table) {
+        int i = 0;
+        for (OrderSetMember orderSetMember : orderSetPage.transformTableToOrderSetMembers(table)) {
+            orderSetPage.enterMember(i, orderSetMember);
 
             new BahmniPage().getOrderSetInSpecStore().getOrderSetMembers().add(orderSetMember);
 
@@ -43,40 +39,39 @@ public class OrderSetPageSpec {
     }
 
     @Step("Save the orderset")
-    public void saveOrderSet(){
+    public void saveOrderSet() {
         orderSetPage.clickSave();
-        BahmniPage.waitForSpinner(this.driver);
+        orderSetPage.waitForSpinner();
     }
 
     @Step("Click on back button on orderset page")
-    public void back()
-    {
+    public void back() {
         orderSetPage.back();
-        BahmniPage.waitForSpinner(this.driver);
+        orderSetPage.waitForSpinner();
     }
-    public OrderSet createOrderSet(String namePrefix, String description, String operator){
-        ArrayList<String> headers=new ArrayList<>();
+
+    public OrderSet createOrderSet(String namePrefix, String description, String operator) {
+        ArrayList<String> headers = new ArrayList<>();
         headers.add("name");
         headers.add("description");
         headers.add("operator");
-        Table table=new Table(headers);
-        ArrayList<String> row=new ArrayList<>();
+        Table table = new Table(headers);
+        ArrayList<String> row = new ArrayList<>();
         row.add(namePrefix);
         row.add(description);
         row.add(operator);
 
         table.addRow(row);
 
-        return TableTransformer.asEntity(table,OrderSet.class);
+        return TableTransformer.asEntity(table, OrderSet.class);
     }
+
     @Step("Create orderset <namePrefix>, description <description>, operator <operator> with following members using api <table>")
-    public void createOrderSetUsingApi(String namePrefix, String description, String operator, Table orderSetMembers){
+    public void createOrderSetUsingApi(String namePrefix, String description, String operator, Table orderSetMembers) {
 
-        orderSetPage= PageFactory.get(OrderSetPage.class);
-        OrderSet orderSet=createOrderSet(namePrefix,description,operator);
+        OrderSet orderSet = createOrderSet(namePrefix, description, operator);
 
-        for(OrderSetMember orderSetMember : orderSetPage.transformTableToOrderSetMembers(orderSetMembers))
-        {
+        for (OrderSetMember orderSetMember : orderSetPage.transformTableToOrderSetMembers(orderSetMembers)) {
             orderSet.getOrderSetMembers().add(orderSetMember);
         }
 
@@ -86,19 +81,17 @@ public class OrderSetPageSpec {
     }
 
     @Step("Edit previous orderset as <namePrefix>, description <description>, operator <operator> with following details <table>")
-    public void editOrderSet(String namePrefix, String description, String operator, Table orderSetMembers){
-        orderSetPage= PageFactory.get(OrderSetPage.class);
-        OrderSet orderSet=new BahmniPage().getOrderSetInSpecStore();
+    public void editOrderSet(String namePrefix, String description, String operator, Table orderSetMembers) {
+        OrderSet orderSet = new BahmniPage().getOrderSetInSpecStore();
 
-        TableTransformer.updateEntityProperty(orderSet,"name",namePrefix);
-        TableTransformer.updateEntityProperty(orderSet,"description",description);
-        TableTransformer.updateEntityProperty(orderSet,"operator",operator);
+        TableTransformer.updateEntityProperty(orderSet, "name", namePrefix);
+        TableTransformer.updateEntityProperty(orderSet, "description", description);
+        TableTransformer.updateEntityProperty(orderSet, "operator", operator);
 
         orderSet.getOrderSetMembers().clear();
 
 
-        for(OrderSetMember orderSetMember : orderSetPage.transformTableToOrderSetMembers(orderSetMembers))
-        {
+        for (OrderSetMember orderSetMember : orderSetPage.transformTableToOrderSetMembers(orderSetMembers)) {
             orderSet.getOrderSetMembers().add(orderSetMember);
         }
 
@@ -107,9 +100,8 @@ public class OrderSetPageSpec {
     }
 
     @Step("Verify previous orderset")
-    public void verifyOrderSet(){
-        orderSetPage= PageFactory.get(OrderSetPage.class);
-        OrderSet orderSet=new BahmniPage().getOrderSetInSpecStore();
+    public void verifyOrderSet() {
+        OrderSet orderSet = orderSetPage.getOrderSetInSpecStore();
         orderSetPage.verifyOrderSet(orderSet);
 
     }

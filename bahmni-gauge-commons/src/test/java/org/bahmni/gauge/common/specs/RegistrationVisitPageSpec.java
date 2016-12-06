@@ -3,7 +3,6 @@ package org.bahmni.gauge.common.specs;
 import com.thoughtworks.gauge.BeforeClassSteps;
 import com.thoughtworks.gauge.Step;
 import com.thoughtworks.gauge.Table;
-
 import org.bahmni.gauge.common.BahmniPage;
 import org.bahmni.gauge.common.DriverFactory;
 import org.bahmni.gauge.common.PageFactory;
@@ -17,38 +16,35 @@ import org.openqa.selenium.WebDriver;
 
 
 public class RegistrationVisitPageSpec {
-    private final WebDriver driver;
+    RegistrationVisitDetailsPage registrationVisitPage;
 
     public RegistrationVisitPageSpec() {
-        this.driver = DriverFactory.getDriver();
+        registrationVisitPage=PageFactory.get(RegistrationVisitDetailsPage.class);
     }
 
     @BeforeClassSteps
     public void waitForAppReady() {
-        BahmniPage.waitForSpinner(driver);
+        registrationVisitPage.waitForSpinner();
+        registrationVisitPage=PageFactory.get(RegistrationVisitDetailsPage.class);
     }
 
     @Step("Close visit")
     public void closeVisit() {
-        RegistrationVisitDetailsPage registrationVisitPage = PageFactory.getRegistrationVisitPage();
-        registrationVisitPage.closeVisit(driver);
+        registrationVisitPage.closeVisit();
     }
 
     @Step("Try close visit")
     public void tryCloseVisit() {
-        RegistrationVisitDetailsPage registrationVisitPage = PageFactory.getRegistrationVisitPage();
         registrationVisitPage.tryCloseVisit();
     }
 
     @Step("Navigate to latest visit page")
     public void navigateToVisit() {
-        RegistrationVisitDetailsPage registrationVisitPage = PageFactory.getRegistrationVisitPage();
         registrationVisitPage.openLastVisit();
     }
 
     @Step("Verify display control <displayControl> on visit page, has the following details <table>")
     public void verifyDisplayControlOnVisitPage(String displayControl, Table table) {
-        RegistrationVisitDetailsPage registrationVisitPage = PageFactory.getRegistrationVisitPage();
         String displayControlText = registrationVisitPage.getDisplayControlText(displayControl);
         for (String drugOrder : table.getColumnValues("details")) {
             drugOrder = StringUtil.transformPatternToData(drugOrder);
@@ -58,7 +54,6 @@ public class RegistrationVisitPageSpec {
 
     @Step("Verify display control with Caption <displayControlCaption> on visit page, has the following details <table>")
     public void verifyDisplayControlOnVisitPageWithCaption(String displayControlCaption, Table table) {
-        RegistrationVisitDetailsPage registrationVisitPage = PageFactory.getRegistrationVisitPage();
         String displayControlText = registrationVisitPage.getDisplayControlTextWithCaption(displayControlCaption);
         for (String drugOrder : table.getColumnValues("details")) {
             drugOrder = StringUtil.transformPatternToData(drugOrder);
@@ -83,15 +78,13 @@ public class RegistrationVisitPageSpec {
     }
 
     @Step("Verify Error popup with message <message> is displayed")
-    public void verifyErrorOnPageWithMessage(String message) {
-        RegistrationVisitDetailsPage registrationVisitPage = PageFactory.getRegistrationVisitPage();
+    public void verifyErrorOnPageWithMessage(String message){
         registrationVisitPage.waitForElementOnPage(By.cssSelector(".error-message-container"));
         Assert.assertEquals("Error popup message dont match", message, registrationVisitPage.findElement(By.cssSelector("#view-content .msg")).getText());
     }
 
     @Step("Open visit for previous patient using api <table>")
-    public void openVisitThroughApi(Table table) {
-        RegistrationVisitDetailsPage registrationVisitPage = PageFactory.getRegistrationVisitPage();
+    public void openVisitThroughApi(Table table){
         registrationVisitPage.getPatientFromSpecStore().setLocation(table.getColumnValues("location").get(0));
         registrationVisitPage.getPatientFromSpecStore().setVisitType(table.getColumnValues("type").get(0));
         BahmniRestClient.get().create(registrationVisitPage.getPatientFromSpecStore(), "visit");
@@ -100,7 +93,6 @@ public class RegistrationVisitPageSpec {
 
     @Step("Enter visit details through API <table>")
     public void enterVisitDetailsThroughAPI(Table table) {
-        RegistrationVisitDetailsPage registrationVisitPage = PageFactory.getRegistrationVisitPage();
         registrationVisitPage.getPatientFromSpecStore().setHeight(table.getColumnValues("height").get(0));
         registrationVisitPage.getPatientFromSpecStore().setWeight(table.getColumnValues("weight").get(0));
         registrationVisitPage.getPatientFromSpecStore().setRegistrationFee(table.getColumnValues("registrationFee").get(0));
@@ -110,8 +102,7 @@ public class RegistrationVisitPageSpec {
 
 
     @Step("Open <tabCaption> tab on visit page")
-    public void openTab(String tabCaption) {
-        RegistrationVisitDetailsPage registrationVisitPage = PageFactory.getRegistrationVisitPage();
+    public void openTab(String tabCaption){
         registrationVisitPage.openTab(tabCaption);
     }
 

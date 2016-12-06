@@ -39,7 +39,7 @@ public class RegistrationVisitDetailsPage extends BahmniPage{
 	@FindBy(how= How.CSS, using = "#visitDisplayTable tr:nth-last-child(1) a")
 	public WebElement openLastVisit;
 
-	public void closeVisit(WebDriver driver) {
+	public void closeVisit() {
 		closeVisit.click();
 		waitForAlertPopup(driver);
 		acceptAlert(driver);
